@@ -8,6 +8,10 @@ use App\Post;
 
 class PostsController extends Controller
 {
+    public function __construct()
+    {
+        $this->middleware('auth', ['except' => ['index', 'show']]);
+    }
     /**
      * Display a listing of the resource.
      *
@@ -15,8 +19,8 @@ class PostsController extends Controller
      */
     public function index()
     {
-        //$posts = Post::orderBy('created_at','desc')->paginate(5);
-        return view('posts.postpage');
+        $posts = Post::orderBy('created_at','desc')->paginate(5);
+        return view('posts.postpage')->with('posts', $posts);
     }
 
     /**
@@ -47,10 +51,10 @@ class PostsController extends Controller
         $post = new Post;
         $post->title = $request->input('title');
         $post->body = $request->input('body');
-        $post->user_id = auth()->user()->id;
+        $post->id = auth()->user()->id;
         $post->save();
 
-        return redirect('/Home')->with('success', 'Post Created');
+        return redirect('/posts')->with('success', 'Post Created');
     }
 
     /**
