@@ -26,3 +26,5 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/posts/create', 'PostsController@create');
 Route::get('/posts', 'PostsController@index');
 Route::post('/posts', 'PostsController@store');
+
+Route::get('/show', 'PostsController@show');
